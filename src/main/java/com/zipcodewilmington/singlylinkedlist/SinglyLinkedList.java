@@ -13,15 +13,15 @@ public class SinglyLinkedList<T extends Comparable<T> > {
             headNode = node;
         }
         else{
-            Node<T> last = getLastNode();
+            Node<T> last = getLastNode(headNode);
             last.next = node;
         }
     }
 
-    private Node<T> getLastNode() {
+    private Node<T> getLastNode(Node<T> head) {
         Node<T> lastNode = null;
-        if(headNode != null) {
-            lastNode = headNode;
+        if(head != null) {
+            lastNode = head;
             while (lastNode.next != null) {
                 lastNode = lastNode.next;
             }
@@ -119,7 +119,7 @@ public class SinglyLinkedList<T extends Comparable<T> > {
     }
 
     public void sort(){
-
+        mergeSort();
     }
 
     private class Node<T>{
@@ -129,5 +129,108 @@ public class SinglyLinkedList<T extends Comparable<T> > {
         public Node(T data) {
             this.data = data;
         }
+    }
+
+    private Node<T> traverse(Node<T> node, int length){
+        int index = 0;
+        Node<T> newNode = node;
+        while (index < length && node != null){
+            node = node.next;
+            index++;
+        }
+        return node;
+    }
+
+    private void mergeSort(){
+        int size = size();
+        if(size <= 1) // Already Sorted
+            return;
+
+        Node<T> firstHalf = headNode;
+        Node<T> secondHalf = headNode.next;
+        Node<T> prevLastNode = null;
+        Node<T> newHead = null;
+        for(int currentSize = 1; currentSize < size; currentSize  *= 2){
+            newHead = null;
+            while(firstHalf != null || secondHalf != null) {
+                Node<T> sortedHead = mergeSorted(firstHalf, secondHalf, currentSize);
+                if (newHead == null) {
+                    newHead = sortedHead;
+                } else {
+                    prevLastNode.next = sortedHead;
+                }
+                prevLastNode = getLastNode(sortedHead);
+                firstHalf = traverse(firstHalf, currentSize*2);
+                secondHalf = traverse(firstHalf, currentSize);
+            }
+            firstHalf = newHead;
+            secondHalf = traverse(newHead, currentSize *2);
+
+        }
+        headNode = newHead;
+    }
+
+    private Node<T> mergeSorted(Node<T> firstNode, Node<T> secondNode, int length){
+        Node<T> head = null;
+        Node<T> last = null;
+
+        Node<T> traverseFirst = firstNode;
+        Node<T> traverseSecond = secondNode;
+
+        int firstIdx = 0;
+        int secondIdx = 0;
+        if(firstNode != null && secondNode != null) {
+            while (firstIdx < length && secondIdx < length && traverseFirst != null && traverseSecond != null ) {
+                if (traverseFirst.data.compareTo(traverseSecond.data) < 0) {
+                    if (head == null) {
+                        head = new Node<>(traverseFirst.data);
+                        last = head;
+                    } else {
+                        last.next = new Node<>(traverseFirst.data);
+                        last = last.next;
+                    }
+                    traverseFirst = traverseFirst.next;
+                    firstIdx++;
+                } else {
+                    if (head == null) {
+                        head = new Node<>(traverseSecond.data);
+                        last = head;
+                    } else {
+                        last.next = new Node<>(traverseSecond.data);
+                        last = last.next;
+                    }
+
+                    traverseSecond = traverseSecond.next;
+                    secondIdx++;
+                }
+            }
+        }else{
+            if(firstNode != null) {
+                head = firstNode;
+                last = head;
+                traverseFirst = last.next;
+            }else if(secondNode != null) {
+                head = secondNode;
+                last = secondNode;
+                traverseSecond = last.next;
+            }
+        }
+
+        while (firstIdx < length && traverseFirst != null){
+            last.next = new Node<>(traverseFirst.data);
+            last = last.next;
+            traverseFirst = traverseFirst.next;
+            firstIdx++;
+        }
+
+        while(secondIdx < length && traverseSecond != null){
+            last.next = new Node<>(traverseSecond.data);
+            last = last.next;
+            traverseSecond = traverseSecond.next;
+            secondIdx++;
+        }
+
+        last.next = null;
+        return head;
     }
 }

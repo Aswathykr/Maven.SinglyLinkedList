@@ -141,7 +141,6 @@ public class SinglyLinkedListTest {
                 .forEach(value -> intList.add(value));
         int retrievedResult = intList.find(6);
         Assert.assertEquals(retrievedResult, 2);
-
     }
 
     @Test
@@ -152,7 +151,6 @@ public class SinglyLinkedListTest {
                 .forEach(value -> intList.add(value));
         int retrievedResult = intList.find(8);
         Assert.assertEquals(retrievedResult, -1);
-
     }
 
     @Test
@@ -163,15 +161,14 @@ public class SinglyLinkedListTest {
                 .forEach(value -> intList.add(value));
         int retrievedResult = intList.size();
         Assert.assertEquals(retrievedResult, 3);
-
     }
+
     @Test
     public void sizeFalseTest(){
         SinglyLinkedList<Integer> intList = new SinglyLinkedList<Integer>();
 
         int retrievedResult = intList.size();
         Assert.assertEquals(retrievedResult, 0);
-
     }
 
     @Test
@@ -182,7 +179,6 @@ public class SinglyLinkedListTest {
                 .forEach(value -> intList.add(value));
         Integer retrievedResult = intList.get(0);
         Assert.assertEquals(retrievedResult, valuesToadd[0]);
-
     }
 
     @Test
@@ -226,6 +222,7 @@ public class SinglyLinkedListTest {
                 .forEach(value -> intList.add(value));
 
         SinglyLinkedList<Integer> copyList= intList.copy();
+
         Assert.assertEquals(copyList.get(0), valuesToadd[0]);
         Assert.assertEquals(copyList.get(1), valuesToadd[1]);
         Assert.assertEquals(copyList.get(2), valuesToadd[2]);
@@ -237,8 +234,65 @@ public class SinglyLinkedListTest {
 
     }
 
-    public void sortTest(){
+    @Test
+    public void sortWithTwoTest(){
+        SinglyLinkedList<Integer> intList = new SinglyLinkedList<Integer>();
+        Integer valuesToadd[] ={ 5,3};
+        Arrays.stream(valuesToadd)
+                .forEach(value -> intList.add(value));
+
+        intList.sort();
+        Assert.assertEquals(intList.get(0), new Integer(3));
+        Assert.assertEquals(intList.get(1), new Integer(5));
 
     }
 
+    @Test
+    public void sortWithThreeTest(){
+        SinglyLinkedList<Integer> intList = new SinglyLinkedList<Integer>();
+        Integer valuesToadd[] ={ 5,3, 4};
+        Arrays.stream(valuesToadd)
+                .forEach(value -> intList.add(value));
+
+        intList.sort();
+        Assert.assertEquals(intList.get(0), new Integer(3));
+        Assert.assertEquals(intList.get(1), new Integer(4));
+        Assert.assertEquals(intList.get(2), new Integer(5));
+
+    }
+
+
+    @Test
+    public void sortWithFourTest(){
+        SinglyLinkedList<Integer> intList = new SinglyLinkedList<Integer>();
+        Integer valuesToadd[] ={ 5, 3, 4, 2};
+        Arrays.stream(valuesToadd)
+                .forEach(value -> intList.add(value));
+
+        intList.sort();
+
+        Assert.assertEquals(intList.get(0), new Integer(2));
+        Assert.assertEquals(intList.get(1), new Integer(3));
+        Assert.assertEquals(intList.get(2), new Integer(4));
+        Assert.assertEquals(intList.get(3), new Integer(5));
+
+    }
+
+
+    @Test
+    public void sortWithFiveTest(){
+        SinglyLinkedList<Integer> intList = new SinglyLinkedList<Integer>();
+        Integer valuesToadd[] ={ 5, 3, 4, 2,3};
+        Arrays.stream(valuesToadd)
+                .forEach(value -> intList.add(value));
+
+        intList.sort();
+
+        Assert.assertEquals(intList.get(0), new Integer(2));
+        Assert.assertEquals(intList.get(1), new Integer(3));
+        Assert.assertEquals(intList.get(2), new Integer(3));
+        Assert.assertEquals(intList.get(3), new Integer(4));
+        Assert.assertEquals(intList.get(4), new Integer(5));
+
+    }
 }

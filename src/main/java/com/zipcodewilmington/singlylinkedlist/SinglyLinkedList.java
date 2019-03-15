@@ -3,9 +3,19 @@ package com.zipcodewilmington.singlylinkedlist;
 /**
  * Created by leon on 1/10/18.
  */
+
 public class SinglyLinkedList<T extends Comparable<T> > {
 
     Node<T> headNode;
+
+    private class Node<T>{
+        private T data;
+        private Node<T> next;
+
+        public Node(T data) {
+            this.data = data;
+        }
+    }
 
     public void add(T item){
         Node<T> node= new Node<T>(item);
@@ -122,15 +132,6 @@ public class SinglyLinkedList<T extends Comparable<T> > {
         mergeSort();
     }
 
-    private class Node<T>{
-        private T data;
-        private Node<T> next;
-
-        public Node(T data) {
-            this.data = data;
-        }
-    }
-
     private Node<T> traverse(Node<T> node, int length){
         int index = 0;
         Node<T> newNode = node;
@@ -233,4 +234,5 @@ public class SinglyLinkedList<T extends Comparable<T> > {
         last.next = null;
         return head;
     }
+
 }
